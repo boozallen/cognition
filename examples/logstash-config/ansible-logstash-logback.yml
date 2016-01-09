@@ -1,0 +1,29 @@
+# Ansible script for
+# 1) removing existing logback JARs
+# 2) installing newer version of logback required by logstash-encoder
+# 3) installing logstash-encoder and dependencies
+
+---
+- hosts: storm-nodes
+  vars:
+    maven_mirror: "http://central.maven.org/maven2"
+
+  tasks:
+    - name: Remove older version of logback JARs
+      file: path={{ install_dir_symlink }}/lib/{{ item }} state=absent
+      with_items:
+       - logback-classic-1.0.13.jar
+       - logback-core-1.0.13.jar
+
+    - name: Install logstash-logback-encoder and dependent JARs
+      get_url:
+        url: "{{ item }}"
+        dest: "{{ install_dir_symlink }}/lib/"
+      with_items:
+        - "{{ maven_mirror }}/net/logstash/logback/logstash-logback-encoder/3.5/logstash-logback-encoder-3.5.jar"
+        - "{{ maven_mirror }}/ch/qos/logback/logback-access/1.1.2/logback-access-1.1.2.jar"
+        - "{{ maven_mirror }}/ch/qos/logback/logback-classic/1.1.2/logback-classic-1.1.2.jar"
+        - "{{ maven_mirror }}/ch/qos/logback/logback-core/1.1.2/logback-core-1.1.2.jar"
+        - "{{ maven_mirror }}/com/fasterxml/jackson/core/jackson-databind/2.4.0/jackson-databind-2.4.0.jar"
+        - "{{ maven_mirror }}/com/fasterxml/jackson/core/jackson-annotations/2.4.0/jackson-annotations-2.4.0.jar"
+        - "{{ maven_mirror }}/com/fasterxml/jackson/core/jackson-core/2.4.0/jackson-core-2.4.0.jar"

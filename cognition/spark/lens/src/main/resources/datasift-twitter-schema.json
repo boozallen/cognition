@@ -1,0 +1,52 @@
+{
+  "fields": {
+    "USER": [
+      {
+        "source": "TWITTER",
+        "columnFamily": "twitter.user.name",
+        "columnQualifier": "twitter"
+      }
+    ],
+    "LOCATION": [
+      {
+        "source": "TWITTER",
+        "columnFamily": "pip.location",
+        "columnQualifier": "twitter"
+      },
+      {
+        "source": "TWITTER",
+        "columnFamily": "pip.location.country",
+        "columnQualifier": "twitter"
+      }
+    ],
+    "LANGUAGE": [
+      {
+        "source": "TWITTER",
+        "columnFamily": "twitter.lang",
+        "columnQualifier": "twitter"
+      },
+      {
+        "source": "TWITTER",
+        "columnFamily": "language.tag",
+        "columnQualifier": "twitter"
+      }
+    ],
+    "KEYWORD": [
+      {
+        "source": "TWITTER",
+        "columnFamily": "interaction.content",
+        "columnQualifier": "twitter"
+      }
+    ],
+    "JSON": [
+      {
+        "source": "TWITTER",
+        "columnFamily": "data",
+        "columnQualifier": "cognition.esjson"
+      }
+    ]
+  },
+  "properties": {
+    "TABLE_NAME": "Event"
+  }
+}

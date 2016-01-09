@@ -1,0 +1,41 @@
+{
+  "fields": {
+    "USER": [
+      {
+        "source": "FACEBOOK",
+        "columnFamily": "facebook.author.name",
+        "columnQualifier": "facebook"
+      }
+    ],
+    "LOCATION": [
+      {
+        "source": "FACEBOOK",
+        "columnFamily": "pip.location.country",
+        "columnQualifier": "twitter"
+      },
+      {
+        "source": "FACEBOOK",
+        "columnFamily": "pip.location",
+        "columnQualifier": "twitter"
+      }
+    ],
+    "KEYWORD": [
+      {
+        "source": "FACEBOOK",
+        "columnFamily": "interaction.content",
+        "columnQualifier": "facebook"
+      }
+    ],
+    "JSON": [
+      {
+        "source": "FACEBOOK",
+        "columnFamily": "data",
+        "columnQualifier": "cognition.esjson"
+      }
+    ]
+  },
+  "properties": {
+    "TABLE_NAME": "Event",
+    "AUTHORIZATIONS": "Facebook"
+  }
+}

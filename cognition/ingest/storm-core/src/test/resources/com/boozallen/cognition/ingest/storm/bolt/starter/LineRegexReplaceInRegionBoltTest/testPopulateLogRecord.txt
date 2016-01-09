@@ -1,0 +1,1 @@
+2015-01-02	12:34:56	Non_Authenticated_Guest	IP.IP.IPI.PIP	GET	http://dummyhost.net/image.png	http	1.2.3.4	304	0	79	IP.IP.IPI.PIP	TCP_HIT	491	317	0	Explicit	IP.IP.IPI.PIP	OBSERVED	Search%20Engines/Portals	-	SG-HTTP-Service	-	-	png	-	dummyhost.net	80	image/png	-	http://dummyhost.net/search?query=asdf	Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0; Touch)

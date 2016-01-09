@@ -1,0 +1,20 @@
+{
+  "boolean": true,
+  "object": {
+    "a": "a"
+  },
+  "number": 1234,
+  "string": "string",
+  "list": [
+    "value0",
+    "value1"
+  ],
+  "object_list": [
+    {
+      "a": "a"
+    },
+    {
+      "b": "b"
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to Booz Allen Hamilton under one or more contributor
+  ~ license agreements. See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright
+  ~ ownership. Booz Allen Hamilton licenses this file to you
+  ~ under the Apache License, Version 2.0 (the "License"); you
+  ~ may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<configuration>
+  <topology>
+    <name>BlueCoatTopology</name>
+    <storm-conf>
+      <topology.workers>3</topology.workers>
+      <topology.message.timeout.secs>300</topology.message.timeout.secs>
+      <topology.max.spout.pending>5000</topology.max.spout.pending>
+    </storm-conf>
+  </topology>
+  <spout>
+    <type>com.boozallen.cognition.ingest.storm.spout.StormKafkaSpout</type>
+    <conf>
+      <stormKafkaConfig>
+        <kafkaZookeeper>KAFKA-ZOOKEEPER-0:2181,KAFKA-ZOOKEEPER-1:2181,KAFKA-ZOOKEEPER-2:2181</kafkaZookeeper>
+        <brokerPath>/brokers</brokerPath>
+        <zkRoot>/storm-kafka</zkRoot>
+      </stormKafkaConfig>
+      <spoutId>bluecoat-ingest</spoutId>
+      <topic>bluecoat-records</topic>
+      <parallelismHint>3</parallelismHint>
+      <topology.debug>true</topology.debug>
+    </conf>
+  </spout>
+  <bolts>
+    <bolt number="0">
+      <type>com.boozallen.cognition.ingest.storm.bolt.starter.LineRegexReplaceInRegionBolt</type>
+      <conf>
+        <parallelismHint>1</parallelismHint>
+        <regexRegions>
+          <region>
+            <group>^([^"]+)</group>
+            <search>[ ]</search>
+            <replace>\,</replace>
+          </region>
+        </regexRegions>
+        <delimiter>\,</delimiter>
+        <fields>
+          <field>date</field>
+          <field>time</field>
+          <field>src_user</field>
+          <field>src_ip</field>
+          <field>cs_method</field>
+          <field>cs_uri_stem</field>
+          <field>protocol</field>
+          <field>r_ip</field>
+          <field>http_response</field>
+          <field>rs_bytes</field>
+          <field>time_taken</field>
+          <field>s_ip</field>
+          <field>s_action</field>
+          <field>bytes_out</field>
+          <field>bytes_in</field>
+          <field>sr_bytes</field>
+          <field>c_connect_type</field>
+          <field>dest_host</field>
+          <field>sc_filter_result</field>
+          <field>sc_filter_category</field>
+          <field>unknown1</field>
+          <field>s_sitename</field>
+          <field>unknown2</field>
+          <field>unknown3</field>
+          <field>unknown4</field>
+          <field>unknown5</field>
+          <field>sc_status</field>
+          <field>s_supplier_name</field>
+          <field>dest_port</field>
+          <field>unknown6</field>
+          <field>unknown7</field>
+          <field>unknown8</field>
+          <field>http_user_agent</field>
+        </fields>
+      </conf>
+    </bolt>
+    <bolt number="1">
+      <type>com.boozallen.cognition.ingest.storm.bolt.enrich.AddMetadataBolt</type>
+      <conf>
+        <parallelismHint>3</parallelismHint>
+        <field>cognition.dataType</field>
+        <value>bluecoat</value>
+      </conf>
+    </bolt>
+    <bolt number="2">
+      <type>com.boozallen.cognition.ingest.accumulo.storm.AccumuloEventStorageBolt</type>
+      <conf>
+        <subscribeToBolt>1</subscribeToBolt>
+        <accumuloConfig>
+          <instanceName>cognition</instanceName>
+          <zooServers>zookeeper-host-0:2181,zookeeper-host-1:2181,zookeeper-host-2:2181</zooServers>
+          <user>root</user>
+          <key>secret</key>
+        </accumuloConfig>
+        <eventTable>bluecoat</eventTable>
+        <uuidPrefix>BLUECOAT_</uuidPrefix>
+        <streamGrouping>Shuffle</streamGrouping>
+        <splits>36</splits>
+        <parallelismHint>3</parallelismHint>
+      </conf>
+    </bolt>
+  </bolts>
+</configuration>

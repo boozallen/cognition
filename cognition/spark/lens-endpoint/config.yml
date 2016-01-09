@@ -1,0 +1,6 @@
+#Provide listening port for service requests
+http:
+    port: 8080
+    adminPort: 8081
+    maxIdleTime: 3600s
+

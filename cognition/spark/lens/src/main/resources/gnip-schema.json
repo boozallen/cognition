@@ -1,0 +1,52 @@
+{
+  "fields": {
+    "USER": [
+      {
+        "source": "TWITTER",
+        "columnFamily": "data",
+        "columnQualifier": "actor.displayName"
+      }
+    ],
+    "LOCATION": [
+      {
+        "source": "TWITTER",
+        "columnFamily": "data",
+        "columnQualifier": "cognition.location"
+      },
+      {
+        "source": "TWITTER",
+        "columnFamily": "data",
+        "columnQualifier": "cognition.location.country"
+      }
+    ],
+    "LANGUAGE": [
+      {
+        "source": "TWITTER",
+        "columnFamily": "data",
+        "columnQualifier": "gnip.language.value"
+      }
+    ],
+    "KEYWORD": [
+      {
+        "source": "TWITTER",
+        "columnFamily": "data",
+        "columnQualifier": "body"
+      }
+    ],
+    "JSON": [
+      {
+        "source": "TWITTER",
+        "columnFamily": "data",
+        "columnQualifier": "cognition.esjson"
+      },
+      {
+        "source": "FACEBOOK",
+        "columnFamily": "data",
+        "columnQualifier": "cognition.esjson"
+      }
+    ]
+  },
+  "properties": {
+    "TABLE_NAME": "twitter"
+  }
+}

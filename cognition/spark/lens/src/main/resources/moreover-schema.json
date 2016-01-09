@@ -1,0 +1,75 @@
+{
+  "fields": {
+    "LOCATION": [
+      {
+        "source": "MOREOVER",
+        "columnFamily": "data",
+        "columnQualifier": "source.location.country"
+      },
+      {
+        "source": "MOREOVER",
+        "columnFamily": "data",
+        "columnQualifier": "source.location.country_code"
+      },
+      {
+        "source": "MOREOVER",
+        "columnFamily": "data",
+        "columnQualifier": "source.location.region"
+      },
+      {
+        "source": "MOREOVER",
+        "columnFamily": "data",
+        "columnQualifier": "source.location.state"
+      },
+      {
+        "source": "MOREOVER",
+        "columnFamily": "data",
+        "columnQualifier": "source.location.subregion"
+      },
+      {
+        "source": "MOREOVER",
+        "columnFamily": "data",
+        "columnQualifier": "cognition.location.country"
+      },
+      {
+        "source": "MOREOVER",
+        "columnFamily": "data",
+        "columnQualifier": "cognition.location"
+      }
+    ],
+    "LANGUAGE": [
+      {
+        "source": "MOREOVER",
+        "columnFamily": "data",
+        "columnQualifier": "language"
+      },
+      {
+        "source": "MOREOVER",
+        "columnFamily": "data",
+        "columnQualifier": "source.primary_language"
+      },
+      {
+        "source": "MOREOVER",
+        "columnFamily": "data",
+        "columnQualifier": "source.language"
+      }
+    ],
+    "KEYWORD": [
+      {
+        "source": "MOREOVER",
+        "columnFamily": "data",
+        "columnQualifier": "content"
+      }
+    ],
+    "JSON": [
+      {
+        "source": "MOREOVER",
+        "columnFamily": "data",
+        "columnQualifier": "cognition.esjson"
+      }
+    ]
+  },
+  "properties": {
+    "TABLE_NAME": "moreover"
+  }
+}

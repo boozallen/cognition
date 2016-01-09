@@ -1,0 +1,5 @@
+<conf>
+  <esJsonField>custom_es_json_field</esJsonField>
+  <indexName>custom_index_name</indexName>
+  <indexField>custom_index_field</indexField>
+</conf>

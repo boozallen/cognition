@@ -1,0 +1,33 @@
+<conf>
+  <streamGrouping>Shuffle</streamGrouping>
+  <parallelismHint>3</parallelismHint>
+  <indexName>gnip-twitter-</indexName>
+  <timeSeriesIndex>
+    <fieldName>postedTime</fieldName>
+    <inputDateFormat>yyyy-MM-dd'T'HH:mm:ss.SSSX</inputDateFormat>
+    <postfixDateFormat>yyyy.MM.dd.HH</postfixDateFormat>
+  </timeSeriesIndex>
+  <esJsonField>cognition.esjson</esJsonField>
+  <fieldTypeMapping>
+    <entry>
+      <fieldName>geo_coordinates</fieldName>
+      <fieldType>array</fieldType>
+    </entry>
+    <entry>
+      <fieldName>object_geo.coordinates</fieldName>
+      <fieldType>array</fieldType>
+    </entry>
+    <entry>
+      <fieldName>object_twitter_quoted_status_geo_coordinates</fieldName>
+      <fieldType>array</fieldType>
+    </entry>
+    <entry>
+      <fieldName>twitter_quoted_status_geo_coordinates</fieldName>
+      <fieldType>array</fieldType>
+    </entry>
+    <entry>
+      <fieldName>twitter_entities_hashtags_text</fieldName>
+      <fieldType>array</fieldType>
+    </entry>
+  </fieldTypeMapping>
+</conf>

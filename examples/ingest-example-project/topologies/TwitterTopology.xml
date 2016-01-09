@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to Booz Allen Hamilton under one or more contributor
+  ~ license agreements. See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright
+  ~ ownership. Booz Allen Hamilton licenses this file to you
+  ~ under the Apache License, Version 2.0 (the "License"); you
+  ~ may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<configuration>
+  <topology>
+    <name>TwitterTopology</name>
+    <storm-conf>
+      <topology.workers>3</topology.workers>
+      <topology.message.timeout.secs>300</topology.message.timeout.secs>
+      <topology.max.spout.pending>5000</topology.max.spout.pending>
+    </storm-conf>
+  </topology>
+  <spout>
+    <type>com.boozallen.cognition.ingest.storm.spout.StormKafkaSpout</type>
+    <conf>
+      <stormKafkaConfig>
+        <kafkaZookeeper>KAFKA-ZOOKEEPER-0:2181,KAFKA-ZOOKEEPER-1:2181,KAFKA-ZOOKEEPER-2:2181</kafkaZookeeper>
+        <brokerPath>/brokers</brokerPath>
+        <zkRoot>/storm-kafka</zkRoot>
+      </stormKafkaConfig>
+      <spoutId>twitter-ingest</spoutId>
+      <topic>gnip-twitter-records</topic>
+      <parallelismHint>3</parallelismHint>
+      <topology.debug>true</topology.debug>
+    </conf>
+  </spout>
+  <bolts>
+    <bolt number="0">
+      <type>com.boozallen.cognition.ingest.storm.bolt.starter.FlattenJsonBolt</type>
+      <conf>
+        <parallelismHint>3</parallelismHint>
+      </conf>
+    </bolt>
+    <bolt number="1">
+      <type>com.boozallen.cognition.ingest.storm.bolt.logic.SkipFieldValueBolt</type>
+      <conf>
+        <parallelismHint>3</parallelismHint>
+        <field>verb</field>
+        <value>delete</value>
+      </conf>
+    </bolt>
+    <bolt number="2">
+      <type>com.boozallen.cognition.ingest.storm.bolt.logic.SkipBlankBolt</type>
+      <conf>
+        <parallelismHint>3</parallelismHint>
+        <field>postedTime</field>
+      </conf>
+    </bolt>
+    <bolt number="3">
+      <type>com.boozallen.cognition.ingest.storm.bolt.enrich.AddMetadataBolt</type>
+      <conf>
+        <parallelismHint>3</parallelismHint>
+        <field>cognition.dataType</field>
+        <value>twitter</value>
+      </conf>
+    </bolt>
+    <bolt number="4">
+      <type>com.boozallen.cognition.ingest.storm.bolt.enrich.SetDateBolt</type>
+      <conf>
+        <parallelismHint>3</parallelismHint>
+        <date-field>postedTime</date-field>
+        <date-format>yyyy-MM-dd'T'HH:mm:ss.SSSX</date-format>
+      </conf>
+    </bolt>
+    <bolt number="5">
+      <type>com.boozallen.cognition.ingest.storm.bolt.logging.LogRecordDateBolt</type>
+      <conf>
+        <parallelismHint>3</parallelismHint>
+        <sample>0.001</sample> <!-- 0.1% -->
+        <level>info</level>
+        <date-field>postedTime</date-field>
+        <date-format>yyyy-MM-dd'T'HH:mm:ss.SSSX</date-format>
+      </conf>
+    </bolt>
+    <bolt number="6">
+      <type>com.boozallen.cognition.ingest.storm.bolt.enrich.DecomposeObjectArrayBolt</type>
+      <conf>
+        <parallelismHint>3</parallelismHint>
+        <array-field>twitter_entities.hashtags</array-field>
+        <object-field>text</object-field>
+        <dest-field>twitter_entities.hashtags.text</dest-field>
+      </conf>
+    </bolt>
+    <bolt number="7">
+      <type>com.boozallen.cognition.ingest.storm.bolt.geo.TwoFishesGeocodeBolt</type>
+      <conf>
+        <server>http://TWOFISHES-HOST:5000</server>
+        <coordinatesField>geo.coordinates</coordinatesField>
+        <locationFields>actor.location.displayName,object_actor_location_displayName</locationFields>
+        <parallelismHint>6</parallelismHint>
+      </conf>
+    </bolt>
+    <bolt number="8">
+      <type>com.boozallen.cognition.ingest.storm.bolt.enrich.GeoJsonPointReverseArrayBolt</type>
+      <conf>
+        <parallelismHint>3</parallelismHint>
+        <fields>
+          <field>
+            <srcField>geo.coordinates</srcField>
+            <destField>geo.coordinates</destField>
+          </field>
+          <field>
+            <srcField>cognition.location.coordinates</srcField>
+            <destField>cognition.location.coordinates</destField>
+          </field>
+        </fields>
+      </conf>
+    </bolt>
+    <bolt number="9">
+      <type>com.boozallen.cognition.ingest.storm.bolt.enrich.ElasticSearchJsonBolt</type>
+      <conf>
+        <streamGrouping>Shuffle</streamGrouping>
+        <parallelismHint>3</parallelismHint>
+        <indexName>gnip-twitter-</indexName>
+        <timeSeriesIndex>
+          <fieldName>postedTime</fieldName>
+          <inputDateFormat>yyyy-MM-dd'T'HH:mm:ss.SSSX</inputDateFormat>
+          <postfixDateFormat>yyyy.MM.dd.HH</postfixDateFormat>
+        </timeSeriesIndex>
+        <esJsonField>cognition.esjson</esJsonField>
+        <fieldTypeMapping>
+          <entry>
+            <fieldName>geo_coordinates</fieldName>
+            <fieldType>array</fieldType>
+          </entry>
+          <entry>
+            <fieldName>object_geo_coordinates</fieldName>
+            <fieldType>array</fieldType>
+          </entry>
+          <entry>
+            <fieldName>cognition_location_coordinates</fieldName>
+            <fieldType>array</fieldType>
+          </entry>
+          <entry>
+            <fieldName>object_twitter_quoted_status_geo_coordinates</fieldName>
+            <fieldType>array</fieldType>
+          </entry>
+          <entry>
+            <fieldName>twitter_quoted_status_geo_coordinates</fieldName>
+            <fieldType>array</fieldType>
+          </entry>
+          <entry>
+            <fieldName>twitter_entities_hashtags_text</fieldName>
+            <fieldType>array</fieldType>
+          </entry>
+        </fieldTypeMapping>
+      </conf>
+    </bolt>
+    <bolt number="10">
+      <type>com.boozallen.cognition.ingest.storm.bolt.enrich.EsIndexBolt</type>
+      <conf>
+        <subscribeToBolt>9</subscribeToBolt>
+        <streamGrouping>Shuffle</streamGrouping>
+        <streamId>es_json</streamId>
+        <parallelismHint>3</parallelismHint>
+        <manualFlushFreqSecs>5</manualFlushFreqSecs>
+        <es.resource.write>{index}/{cognition_dataType}</es.resource.write>
+        <es.storm.bolt.write.ack>true</es.storm.bolt.write.ack>
+        <es.batch.size.bytes>100mb</es.batch.size.bytes>
+        <es.mapping.id>sha1_checksum</es.mapping.id>
+        <es.mapping.timestamp>postedTime</es.mapping.timestamp>
+        <es.input.json>true</es.input.json>
+        <es.nodes>ELASTICSEARCH-NODE-0,ELASTICSEARCH-NODE-1,ELASTICSEARCH-NODE-2</es.nodes>
+      </conf>
+    </bolt>
+    <bolt number="11">
+      <type>com.boozallen.cognition.ingest.accumulo.storm.AccumuloEventStorageBolt</type>
+      <conf>
+        <subscribeToBolt>9</subscribeToBolt>
+        <accumuloConfig>
+          <instanceName>cognition</instanceName>
+          <zooServers>zookeeper-host-0:2181,zookeeper-host-1:2181,zookeeper-host-2:2181</zooServers>
+          <user>root</user>
+          <key>secret</key>
+        </accumuloConfig>
+        <eventTable>twitter</eventTable>
+        <uuidPrefix>TWITTER_</uuidPrefix>
+        <streamGrouping>Shuffle</streamGrouping>
+        <splits>36</splits>
+        <parallelismHint>3</parallelismHint>
+      </conf>
+    </bolt>
+  </bolts>
+</configuration>

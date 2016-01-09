@@ -1,0 +1,7 @@
+<conf>
+  <timeSeriesIndex>
+    <fieldName>postedTime</fieldName>
+    <inputDateFormat>yyyy-MM-dd'T'HH:mm:ss.SSSX</inputDateFormat>
+    <postfixDateFormat>yyyy.MM.dd.HH</postfixDateFormat>
+  </timeSeriesIndex>
+</conf>

@@ -1,0 +1,12 @@
+<conf>
+  <fieldTypeMapping>
+    <entry>
+      <fieldName>geo_coordinates</fieldName>
+      <fieldType>array</fieldType>
+    </entry>
+    <entry>
+      <fieldName>object_geo.coordinates</fieldName>
+      <fieldType>array</fieldType>
+    </entry>
+  </fieldTypeMapping>
+</conf>

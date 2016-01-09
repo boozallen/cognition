@@ -1,0 +1,108 @@
+[
+  {
+    "_id": "Twitter-Dashboard",
+    "_type": "dashboard",
+    "_source": {
+      "title": "Twitter Dashboard",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"col\":1,\"id\":\"Histogram-Time-Language\",\"row\":5,\"size_x\":12,\"size_y\":4,\"type\":\"visualization\"},{\"col\":1,\"id\":\"Map-Tweet-Geo\",\"row\":9,\"size_x\":12,\"size_y\":6,\"type\":\"visualization\"},{\"col\":1,\"id\":\"Blank-Search\",\"row\":15,\"size_x\":12,\"size_y\":6,\"type\":\"search\"},{\"col\":1,\"id\":\"Significant-Hashtags-over-Time\",\"row\":1,\"size_x\":12,\"size_y\":4,\"type\":\"visualization\"}]",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}}}]}"
+      }
+    }
+  },
+  {
+    "_id": "English-Tweets",
+    "_type": "search",
+    "_source": {
+      "title": "English Tweets",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "object_twitter_lang",
+        "actor_languages",
+        "gnip_language_value",
+        "object_actor_languages",
+        "object_twitter_quoted_status_actor_languages",
+        "object_twitter_quoted_status_twitter_lang",
+        "twitter_lang",
+        "twitter_quoted_status_actor_languages",
+        "twitter_quoted_status_twitter_lang"
+      ],
+      "sort": [
+        "postedTime",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"[gnip-twitter-]YYYY.MM.DD.HH\",\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}}},\"filter\":[],\"query\":{\"query_string\":{\"query\":\"gnip_language_value:\\\"en\\\" OR twitter_lang:\\\"en\\\" OR object_twitter_lang:\\\"en\\\"\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "Blank-Search",
+    "_type": "search",
+    "_source": {
+      "title": "Blank Search",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "body",
+        "cognition_location_coordinates",
+        "cognition_location"
+      ],
+      "sort": [
+        "postedTime",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"[gnip-twitter-]YYYY.MM.DD.HH\",\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}},\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Map-Tweet-Geo",
+    "_type": "visualization",
+    "_source": {
+      "title": "Map - Tweet Geo",
+      "visState": "{\n  \"type\": \"tile_map\",\n  \"params\": {\n    \"mapType\": \"Scaled Circle Markers\",\n    \"isDesaturated\": true\n  },\n  \"aggs\": [\n    {\n      \"id\": \"1\",\n      \"type\": \"count\",\n      \"schema\": \"metric\",\n      \"params\": {}\n    },\n    {\n      \"id\": \"2\",\n      \"type\": \"geohash_grid\",\n      \"schema\": \"segment\",\n      \"params\": {\n        \"field\": \"geo_coordinates\",\n        \"precision\": 2\n      }\n    }\n  ],\n  \"listeners\": {}\n}",
+      "description": "",
+      "savedSearchId": "Blank-Search",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"filter\": []\n}"
+      }
+    }
+  },
+  {
+    "_id": "Histogram-Time-Language",
+    "_type": "visualization",
+    "_source": {
+      "title": "Histogram - Time - Language",
+      "visState": "{\n  \"type\": \"histogram\",\n  \"params\": {\n    \"shareYAxis\": true,\n    \"addTooltip\": true,\n    \"addLegend\": true,\n    \"mode\": \"stacked\",\n    \"defaultYExtents\": false\n  },\n  \"aggs\": [\n    {\n      \"id\": \"1\",\n      \"type\": \"count\",\n      \"schema\": \"metric\",\n      \"params\": {}\n    },\n    {\n      \"id\": \"2\",\n      \"type\": \"date_histogram\",\n      \"schema\": \"segment\",\n      \"params\": {\n        \"field\": \"postedTime\",\n        \"interval\": \"minute\",\n        \"min_doc_count\": 1,\n        \"extended_bounds\": {}\n      }\n    },\n    {\n      \"id\": \"3\",\n      \"type\": \"terms\",\n      \"schema\": \"group\",\n      \"params\": {\n        \"field\": \"twitter_lang\",\n        \"size\": 5,\n        \"order\": \"desc\",\n        \"orderBy\": \"1\"\n      }\n    }\n  ],\n  \"listeners\": {}\n}",
+      "description": "",
+      "savedSearchId": "Blank-Search",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"filter\": []\n}"
+      }
+    }
+  },
+  {
+    "_id": "Significant-Hashtags-over-Time",
+    "_type": "visualization",
+    "_source": {
+      "title": "Significant Hashtags over Time",
+      "visState": "{\n  \"type\": \"line\",\n  \"params\": {\n    \"shareYAxis\": true,\n    \"addTooltip\": true,\n    \"addLegend\": true,\n    \"defaultYExtents\": false\n  },\n  \"aggs\": [\n    {\n      \"id\": \"1\",\n      \"type\": \"count\",\n      \"schema\": \"metric\",\n      \"params\": {}\n    },\n    {\n      \"id\": \"3\",\n      \"type\": \"significant_terms\",\n      \"schema\": \"group\",\n      \"params\": {\n        \"field\": \"twitter_entities_hashtags_text\",\n        \"size\": 8\n      }\n    },\n    {\n      \"id\": \"2\",\n      \"type\": \"date_histogram\",\n      \"schema\": \"segment\",\n      \"params\": {\n        \"field\": \"postedTime\",\n        \"interval\": \"hour\",\n        \"min_doc_count\": 1,\n        \"extended_bounds\": {}\n      }\n    }\n  ],\n  \"listeners\": {}\n}",
+      "description": "",
+      "savedSearchId": "English-Tweets",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"filter\": []\n}"
+      }
+    }
+  }
+]

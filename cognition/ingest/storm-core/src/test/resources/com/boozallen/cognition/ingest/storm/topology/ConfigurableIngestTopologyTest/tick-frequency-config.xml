@@ -1,0 +1,3 @@
+<conf>
+  <topology.tick.tuple.freq.secs>30</topology.tick.tuple.freq.secs>
+</conf>

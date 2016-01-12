@@ -20,37 +20,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.boozallen.cognition</groupId>
+  
   <artifactId>spark-accumulo</artifactId>
-  <version>0.4.0</version>
-  <!-- <packaging>war</packaging> -->
 
-  <properties>
-    <spark.version>1.4.1</spark.version>
-  </properties>
-
-  <repositories>
-    <repository>
-      <id>asf-snapshot</id>
-      <url>http://repository.apache.org/snapshots/</url>
-    </repository>
-  </repositories>
+  <parent>
+    <groupId>com.boozallen.cognition</groupId>
+    <artifactId>cognition-parent</artifactId>
+    <version>0.4.0</version>
+    <relativePath>../../../pom.xml</relativePath>
+  </parent>
+  
+  <name>Spark Accumulo Plugin</name>
+  <description>A spark plugin using accumulo as a data source.</description>
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.1</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.apache.accumulo</groupId>
       <artifactId>accumulo-core</artifactId>
-      <version>1.6.0</version>
+      <version>${accumulo.version}</version>
     </dependency>
-
-
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-core_2.10</artifactId>
@@ -64,73 +52,16 @@
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>net.alchim31.maven</groupId>
-          <artifactId>scala-maven-plugin</artifactId>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
-      <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-shade-plugin</artifactId>
-        <executions> <execution> <phase>package</phase> <goals> <goal>shade</goal>
-        </goals> </execution> </executions> <configuration> <shadedArtifactAttached>true</shadedArtifactAttached>
-        <shadedClassifierName>stand-alone</shadedClassifierName> <filters> <filter>
-        <artifact>*:*</artifact> <excludes> <exclude>META-INF/*.SF</exclude> <exclude>META-INF/*.DSA</exclude>
-        <exclude>META-INF/*.RSA</exclude> </excludes> </filter> </filters> <finalName>spark-accumulo</finalName>
-        <transformers> <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-        <mainClass>com.bah.pip.spark.es.Test</mainClass> </transformer> <transformer
-        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-        <resource>META-INF/spring.handlers</resource> </transformer> <transformer
-        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-        <resource>META-INF/spring.schemas</resource> </transformer> </transformers>
-        </configuration> </plugin> -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>scala-compile-first</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>add-source</goal>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>scala-test-compile</id>
-            <phase>process-test-resources</phase>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
-          </execution>
-        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
+
 </project>

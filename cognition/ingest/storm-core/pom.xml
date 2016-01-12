@@ -24,16 +24,15 @@
   <name>storm-core</name>
   <description></description>
 
-  <groupId>com.boozallen.cognition</groupId>
   <artifactId>storm-core</artifactId>
-  <version>0.4.0</version>
-
   <packaging>jar</packaging>
 
-  <properties>
-    <storm-version>0.9.4</storm-version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  <parent>
+    <groupId>com.boozallen.cognition</groupId>
+    <artifactId>cognition-parent</artifactId>
+    <version>0.4.0</version>
+    <relativePath>../../../pom.xml</relativePath>
+  </parent>
 
   <dependencies>
     <dependency>
@@ -96,7 +95,7 @@
     <dependency>
       <groupId>org.apache.accumulo</groupId>
       <artifactId>accumulo-core</artifactId>
-      <version>1.6.2</version>
+      <version>${accumulo.version}</version>
       <exclusions>  
         <exclusion>  
           <groupId>org.apache.zookeeper</groupId>  
@@ -116,12 +115,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>com.boozallen.cognition</groupId>
       <artifactId>test-utils</artifactId>
       <version>0.4.0</version>
@@ -134,11 +127,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
       </plugin>
     </plugins>
   </build>

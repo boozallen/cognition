@@ -20,9 +20,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.boozallen.cognition</groupId>
+  
   <artifactId>cognition-spark-common</artifactId>
-  <version>0.4.0</version>
+  
+  <parent>
+    <groupId>com.boozallen.cognition</groupId>
+    <artifactId>cognition-parent</artifactId>
+    <version>0.4.0</version>
+    <relativePath>../../../pom.xml</relativePath>
+  </parent>
 
   <dependencies>
 
@@ -35,11 +41,6 @@
       <groupId>com.boozallen.cognition</groupId>
       <artifactId>spark-accumulo</artifactId>
       <version>0.4.0</version>
-    </dependency>
-    <dependency>
-    	<groupId>junit</groupId>
-    	<artifactId>junit</artifactId>
-    	<version>4.12</version>
     </dependency>
   </dependencies>
 
@@ -87,39 +88,12 @@
       </build>
     </profile>
   </profiles>
+  
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>net.alchim31.maven</groupId>
-          <artifactId>scala-maven-plugin</artifactId>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>net.alchim31.maven</groupId>

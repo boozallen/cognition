@@ -72,6 +72,7 @@
     <junit.version>4.12</junit.version>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <shade>true</shade>
   </properties>
 
   <profiles>
@@ -104,6 +105,9 @@
                 </goals>
               </execution>
             </executions>
+            <configuration>
+              <additionalparam>-Xdoclint:none</additionalparam> <!-- javadoc checking disabled for now -->
+            </configuration>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -140,6 +144,10 @@
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
 
   <dependencies>
@@ -166,6 +174,7 @@
         <plugin>
           <groupId>net.alchim31.maven</groupId>
           <artifactId>scala-maven-plugin</artifactId>
+          <version>3.2.2</version>
           <executions>
             <execution>
               <id>scala-compile-first</id>

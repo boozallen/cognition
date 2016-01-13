@@ -44,16 +44,15 @@
     </dependency>
   </dependencies>
 
-  <!-- supply -Dshade or -Puber-jar at the command line (e.g. mvn clean package -Dshade) to produce an uber jar -->
+  <!-- supply -Dshade or -Puber at the command line (e.g. mvn clean package -Dshade) to produce an uber jar -->
   <profiles>
     <profile>
-      <id>uber-jar</id>
+      <id>uber</id>
       <activation>
         <property>
           <name>shade</name>
           <value>true</value>
         </property>
-        <activeByDefault>true</activeByDefault>
       </activation>
       <build>
         <plugins>
@@ -98,6 +97,7 @@
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
+        <version>3.2.2</version>
         <executions>
           <execution>
             <id>scala-compile-first</id>

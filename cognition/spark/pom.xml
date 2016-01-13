@@ -24,11 +24,15 @@
   <name>Cognition Spark Library</name>
   <description></description>
 
-  <groupId>com.boozallen.cognition</groupId>
   <artifactId>spark</artifactId>
-  <version>0.4.0</version>
-
   <packaging>pom</packaging>
+  
+  <parent>
+    <groupId>com.boozallen.cognition</groupId>
+    <artifactId>cognition-parent</artifactId>
+    <version>0.4.0</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
 
   <modules>
     <module>spark-accumulo</module>

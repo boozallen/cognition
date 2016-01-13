@@ -24,11 +24,15 @@
   <name>Cognition Ingest Library</name>
   <description></description>
 
-  <groupId>com.boozallen.cognition</groupId>
   <artifactId>ingest</artifactId>
-  <version>0.4.0</version>
-
   <packaging>pom</packaging>
+  
+  <parent>
+    <groupId>com.boozallen.cognition</groupId>
+    <artifactId>cognition-parent</artifactId>
+    <version>0.4.0</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
 
   <modules>
     <module>storm-accumulo</module>

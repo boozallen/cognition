@@ -26,9 +26,6 @@ import org.slf4j.LoggerFactory;
 /**
  * Data web service specific configuration class.
  * Configured appropriately to work with *.yml if applicable.
- *
- * @see >> http://dropwizard.github.io/dropwizard/0.6.2/ << for further
- * documentation
  */
 public class DataConfiguration extends Configuration {
 

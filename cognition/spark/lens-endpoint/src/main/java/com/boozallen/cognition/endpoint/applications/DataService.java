@@ -32,9 +32,6 @@ import org.slf4j.LoggerFactory;
 /**
  * Pulls together the various bundles and commands to provide basic functionality
  * for data web service.
- *
- * @see >> http://dropwizard.github.io/dropwizard/0.6.2/ << for further
- * documentation
  */
 public class DataService extends Service<DataConfiguration> {
 

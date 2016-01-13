@@ -52,7 +52,7 @@ public class LensAPI {
 
   /**
    * Create a lens api with the properties file on the classpath and using an existing spark context.
-   * @param -- the existing spark context
+   * @param sc -- the existing spark context
    */
   public LensAPI(SparkContext sc) {
     cognition = new CognitionConfiguration();
@@ -80,7 +80,7 @@ public class LensAPI {
 
   /**
    * Helper method for creating the spark context from the given cognition configuration
-   * @return -- a new configured spark context
+   * @return a new configured spark context
    */
   public SparkContext createSparkContext() {
     SparkConf conf = new SparkConf();

@@ -26,9 +26,6 @@ import org.slf4j.LoggerFactory;
 /**
  * Check the health of your application, server, services, etc.
  * Enter specific tests here.
- *
- * @see > http://dropwizard.io/getting-started.html < for further
- * documentation
  */
 public class ServiceHealthCheck extends HealthCheck {
 

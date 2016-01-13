@@ -40,8 +40,6 @@ import java.util.List;
  * Resource class used to implement service methods and associate the
  * appropriate URI template.
  *
- * @see >> http://dropwizard.github.io/dropwizard/0.6.2/ << for further
- *      documentation
  */
 
 // Use of SparkDataService is deprecated and will be removed in future versions

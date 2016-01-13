@@ -38,8 +38,6 @@ import org.slf4j.LoggerFactory;
  * Resource class used to implement service methods and associate the
  * appropriate URI template.
  * 
- * @see >> http://dropwizard.github.io/dropwizard/0.6.2/ << for further 
- * documentation
  */
 @Path("/lensJson")
 @Consumes(MediaType.APPLICATION_JSON)

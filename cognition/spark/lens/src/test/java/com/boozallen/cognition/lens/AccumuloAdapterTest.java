@@ -39,7 +39,7 @@ public class AccumuloAdapterTest {
   public void testGetAccumuloConfiguration() throws AccumuloSecurityException, IOException {
     // Create Criteria
     Criteria criteria = new Criteria();
-    criteria.setAccumuloTable("TableName");
+    //criteria.setAccumuloTable("TableName");
     criteria.setSource(Source.TWITTER);
     criteria.setDates(Instant.parse("2015-02-28T00:00:00.00Z"), Instant.parse("2015-02-28T23:59:59.99Z"));
 
@@ -57,6 +57,7 @@ public class AccumuloAdapterTest {
     assertNotNull(newAccumoloConfig);
     assertNotNull(newAccumoloConfig.getConfiguration());
     assertNotNull(newAccumoloConfig.getJob());
+    assertEquals("moreover",criteria.getAccumuloTable());
   }
 
 }

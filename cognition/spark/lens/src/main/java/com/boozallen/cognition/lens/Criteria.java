@@ -173,6 +173,12 @@ public class Criteria implements Serializable {
   }
 
   public String getAccumuloTable() {
+    //default read from schema definition
+    if(accumuloTable == null || accumuloTable.isEmpty()){
+      if(getSchema() != null){
+        return getSchema().getTableName();
+      }
+    }
     return accumuloTable;
   }
 

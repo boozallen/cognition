@@ -63,8 +63,8 @@ public class DataService extends Service<DataConfiguration> {
   public void run(DataConfiguration configuration, Environment environment) {
     final LensEndpoint restResource = new LensEndpoint();
     environment.addResource(restResource);
-    final JsonLensEndpoint jsonResource = new JsonLensEndpoint();
-    environment.addResource(jsonResource);
+    /*final JsonLensEndpoint jsonResource = new JsonLensEndpoint();
+    environment.addResource(jsonResource);*/
 
     // Application complains if health check not included. Can add more robust
     // service tests later for more complete code base.

@@ -48,7 +48,7 @@
       <directory>${project.basedir}/target/</directory>
       <outputDirectory>lib</outputDirectory>
       <includes>
-        <include>lens-endpoint-2.0.0.jar</include>
+        <include>lens-endpoint-0.4.0.jar</include>
       </includes>
     </fileSet>
   </fileSets>

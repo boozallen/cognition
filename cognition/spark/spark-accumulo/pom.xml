@@ -49,6 +49,16 @@
       <artifactId>spark-sql_2.10</artifactId>
       <version>${spark.version}</version>
     </dependency>
+    <!-- Hadoop is included not because it is needed, but the included hadoop (as a dependency of accumulo) caused 
+         a version mismatch in the shaded jar (spark compiled with hadoop 2.6+, Lens was using 2.2 based on accumulo). 
+         The mismatch was a different serialization ID in a class which caused lens/spark to error out.
+         This is needed just to bump the version.
+    -->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-client</artifactId>
+      <version>2.6.0</version>
+    </dependency>
   </dependencies>
 
   <build>

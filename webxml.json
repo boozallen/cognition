@@ -1,0 +1,75 @@
+{
+  "fields": {
+    "LOCATION": [
+      {
+        "source": "WEBXML",
+        "columnFamily": "data",
+        "columnQualifier": "source.location.country"
+      },
+      {
+        "source": "WEBXML",
+        "columnFamily": "data",
+        "columnQualifier": "source.location.countryCode"
+      },
+      {
+        "source": "WEBXML",
+        "columnFamily": "data",
+        "columnQualifier": "source.location.region"
+      },
+      {
+        "source": "WEBXML",
+        "columnFamily": "data",
+        "columnQualifier": "source.location.subregion"
+      },
+      {
+        "source": "WEBXML",
+        "columnFamily": "data",
+        "columnQualifier": "source.location.state"
+      },
+      {
+        "source": "WEBXML",
+        "columnFamily": "data",
+        "columnQualifier": "source.location.zipArea"
+      },
+      {
+        "source": "WEBXML",
+        "columnFamily": "data",
+        "columnQualifier": "source.location.zipCode"
+      }
+    ],
+    "LANGUAGE": [
+      {
+        "source": "WEBXML",
+        "columnFamily": "data",
+        "columnQualifier": "language"
+      },
+      {
+        "source": "WEBXML",
+        "columnFamily": "data",
+        "columnQualifier": "source.primaryLanguage"
+      }
+    ],
+    "KEYWORD": [
+      {
+        "source": "WEBXML",
+        "columnFamily": "data",
+        "columnQualifier": "title"
+      },
+      {
+        "source": "WEBXML",
+        "columnFamily": "data",
+        "columnQualifier": "content"
+      }
+    ],
+    "JSON": [
+      {
+        "source": "WEBXML",
+        "columnFamily": "data",
+        "columnQualifier": "cognition.esjson"
+      }
+    ]
+  },
+  "properties": {
+    "TABLE_NAME": "webxml"
+  }
+}

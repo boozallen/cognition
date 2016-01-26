@@ -44,7 +44,7 @@ public class CriteriaMatcher implements Serializable {
    */
   public static Set<String> getObservedValues(Criteria criteria, Field field, Map<Tuple2<String, String>, String> observed) {
     Set<String> retVal = new HashSet<>();
-    for (Column column : criteria.getSchema().getColumns(field, criteria.getSource())) {
+    for (Column column : criteria.getSchema().getColumns(field)) {
       String value = observed.get(new Tuple2<String, String>(column.getColumnFamily().toString(),
           column.getColumnQualifier().toString()));
       if (value != null) {

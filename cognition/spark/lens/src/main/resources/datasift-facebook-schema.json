@@ -36,6 +36,7 @@
   },
   "properties": {
     "TABLE_NAME": "Event",
-    "AUTHORIZATIONS": "Facebook"
+    "AUTHORIZATIONS": "Facebook",
+    "SOURCE": "FACEBOOK"
   }
 }

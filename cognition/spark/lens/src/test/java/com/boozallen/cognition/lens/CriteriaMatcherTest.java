@@ -23,8 +23,6 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.boozallen.cognition.accumulo.structure.Source;
-
 import scala.Tuple2;
 
 import java.util.HashMap;
@@ -36,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 public class CriteriaMatcherTest {
   @Test
   public void testCriteriaMatcherException() {
-    Criteria criteria = new Criteria().setSource(Source.TWITTER);
+    Criteria criteria = new Criteria();
     criteria.useSpaceTokens(false);
     criteria.setCaseSensitive(true);
 
@@ -63,7 +61,7 @@ public class CriteriaMatcherTest {
   public void testCriteriaMatcher() throws ConfigurationException {
     Map<Tuple2<String, String>, String> observedValues = new HashMap<>();
 
-    Criteria criteria = new Criteria().addKeyword("room").setSource(Source.TWITTER);
+    Criteria criteria = new Criteria().addKeyword("room");
     criteria.useSpaceTokens(false);
     criteria.setCaseSensitive(true);
 

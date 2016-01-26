@@ -23,8 +23,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.*;
 
-import com.boozallen.cognition.accumulo.structure.Source;
-
 /**
  * Object holding all query information to execute cognition queries.
  * @author mparker
@@ -38,7 +36,6 @@ public class Criteria implements Serializable {
   private Instant dateEnd;
   private Map<Field, String> stringMatches;
   private Collection<String> keywords;
-  private Source source;
   private boolean useSpaceTokens = true;
   private boolean caseSensitive = CASE_SENSITIVE;
 
@@ -58,7 +55,6 @@ public class Criteria implements Serializable {
     this.stringMatches = new HashMap<>();
     this.keywords = new HashSet<>();
 
-    source = Source.TWITTER;
   }
 
   public Criteria useSpaceTokens(boolean useSpaceTokens) {
@@ -68,20 +64,6 @@ public class Criteria implements Serializable {
 
   public boolean getUseSpaceTokens() {
     return useSpaceTokens;
-  }
-
-  public Criteria setSource(Source source) {
-    this.source = source;
-    return this;
-  }
-
-  public Source getSource() {
-    return source;
-  }
-
-  public Criteria setSource(String source) {
-    this.source = Source.valueOf(source.toUpperCase());
-    return this;
   }
 
   public Criteria addMatch(Field field, String criteria) {
@@ -190,7 +172,7 @@ public class Criteria implements Serializable {
   @Override
   public String toString() {
     return "Criteria [accumuloTable=" + accumuloTable + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd
-        + ", stringMatches=" + stringMatches + ", keywords=" + keywords + ", source=" + source
+        + ", stringMatches=" + stringMatches + ", keywords=" + keywords
         + ", useSpaceTokens=" + useSpaceTokens + ", caseSensitive=" + caseSensitive + ", schema=" + schema
         + "]";
   }

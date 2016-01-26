@@ -70,6 +70,7 @@
     ]
   },
   "properties": {
-    "TABLE_NAME": "moreover"
+    "TABLE_NAME": "moreover",
+    "SOURCE": "MOREOVER"
   }
 }

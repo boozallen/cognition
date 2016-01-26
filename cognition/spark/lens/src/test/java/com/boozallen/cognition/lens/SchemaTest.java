@@ -22,8 +22,6 @@ package com.boozallen.cognition.lens;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.boozallen.cognition.accumulo.structure.Source;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -35,13 +33,12 @@ public class SchemaTest {
   public static void initMoreover() {
     gnip = new SchemaAdapter();
 
-    gnip.addField(Field.USER, new Column(Source.TWITTER, "data", "actor.displayName"));
-    gnip.addField(Field.LOCATION, new Column(Source.TWITTER, "data", "cognition.location"));
-    gnip.addField(Field.LOCATION, new Column(Source.TWITTER, "data", "cognition.location.country"));
-    gnip.addField(Field.LANGUAGE, new Column(Source.TWITTER, "data", "gnip.language.value"));
-    gnip.addField(Field.KEYWORD, new Column(Source.TWITTER, "data", "body"));
-    gnip.addField(Field.JSON, new Column(Source.TWITTER, "data", "cognition.esjson"));
-    //gnip.addField(Field.JSON, new Column(Source.FACEBOOK,"data", "cognition.esjson"));
+    gnip.addField(Field.USER, new Column("data", "actor.displayName"));
+    gnip.addField(Field.LOCATION, new Column("data", "cognition.location"));
+    gnip.addField(Field.LOCATION, new Column("data", "cognition.location.country"));
+    gnip.addField(Field.LANGUAGE, new Column("data", "gnip.language.value"));
+    gnip.addField(Field.KEYWORD, new Column("data", "body"));
+    gnip.addField(Field.JSON, new Column("data", "cognition.esjson"));
 
   }
 
@@ -49,22 +46,17 @@ public class SchemaTest {
   public static void initGnip() {
     datasift = new SchemaAdapter();
 
-    datasift.addField(Field.USER, new Column(Source.TWITTER, "twitter.user.name", "twitter"));
-    datasift.addField(Field.USER, new Column(Source.FACEBOOK, "facebook.author.name", "facebook"));
+    datasift.addField(Field.USER, new Column("twitter.user.name", "twitter"));
 
-    datasift.addField(Field.LOCATION, new Column(Source.TWITTER, "pip.location", "twitter"));
-    datasift.addField(Field.LOCATION, new Column(Source.TWITTER, "pip.location.country", "twitter"));
-    datasift.addField(Field.LOCATION, new Column(Source.FACEBOOK, "pip.location.country", "twitter"));
-    datasift.addField(Field.LOCATION, new Column(Source.FACEBOOK, "pip.location", "twitter"));
+    datasift.addField(Field.LOCATION, new Column("pip.location", "twitter"));
+    datasift.addField(Field.LOCATION, new Column("pip.location.country", "twitter"));
 
-    datasift.addField(Field.LANGUAGE, new Column(Source.TWITTER, "twitter.lang", "twitter"));
-    datasift.addField(Field.LANGUAGE, new Column(Source.TWITTER, "language.tag", "twitter"));
+    datasift.addField(Field.LANGUAGE, new Column("twitter.lang", "twitter"));
+    datasift.addField(Field.LANGUAGE, new Column("language.tag", "twitter"));
 
-    datasift.addField(Field.KEYWORD, new Column(Source.TWITTER, "interaction.content", "twitter"));
-    datasift.addField(Field.KEYWORD, new Column(Source.FACEBOOK, "interaction.content", "facebook"));
+    datasift.addField(Field.KEYWORD, new Column("interaction.content", "twitter"));
 
-    datasift.addField(Field.JSON, new Column(Source.TWITTER, "pip.esjson", "twitter"));
-    datasift.addField(Field.JSON, new Column(Source.FACEBOOK, "pip.esjson", "facebook"));
+    datasift.addField(Field.JSON, new Column("pip.esjson", "twitter"));
 
   }
 
@@ -90,18 +82,18 @@ public class SchemaTest {
 
     // Compare the two
     //System.out.println(s2.getJson());
-    assertNotEquals(s.getColumns(Field.KEYWORD, Source.TWITTER).get(0).getColumnQualifier(),
-        s2.getColumns(Field.KEYWORD, Source.TWITTER).get(0).getColumnQualifier());
-    assertEquals(s.getColumns(Field.LANGUAGE, Source.TWITTER).get(0).getColumnQualifier(),
-        s2.getColumns(Field.LANGUAGE, Source.TWITTER).get(0).getColumnQualifier());
-    assertEquals(s.getColumns(Field.LOCATION, Source.TWITTER).get(0).getColumnQualifier(),
-        s2.getColumns(Field.LOCATION, Source.TWITTER).get(0).getColumnQualifier());
-    assertEquals(s.getColumns(Field.LOCATION, Source.TWITTER).get(1).getColumnQualifier(),
-        s2.getColumns(Field.LOCATION, Source.TWITTER).get(1).getColumnQualifier());
-    assertEquals(s.getColumns(Field.USER, Source.TWITTER).get(0).getColumnQualifier(),
-        s2.getColumns(Field.USER, Source.TWITTER).get(0).getColumnQualifier());
-    assertEquals(s.getColumns(Field.JSON, Source.TWITTER).get(0).getColumnQualifier(),
-        s2.getColumns(Field.JSON, Source.TWITTER).get(0).getColumnQualifier());
+    assertNotEquals(s.getColumns(Field.KEYWORD).get(0).getColumnQualifier(),
+        s2.getColumns(Field.KEYWORD).get(0).getColumnQualifier());
+    assertEquals(s.getColumns(Field.LANGUAGE).get(0).getColumnQualifier(),
+        s2.getColumns(Field.LANGUAGE).get(0).getColumnQualifier());
+    assertEquals(s.getColumns(Field.LOCATION).get(0).getColumnQualifier(),
+        s2.getColumns(Field.LOCATION).get(0).getColumnQualifier());
+    assertEquals(s.getColumns(Field.LOCATION).get(1).getColumnQualifier(),
+        s2.getColumns(Field.LOCATION).get(1).getColumnQualifier());
+    assertEquals(s.getColumns(Field.USER).get(0).getColumnQualifier(),
+        s2.getColumns(Field.USER).get(0).getColumnQualifier());
+    assertEquals(s.getColumns(Field.JSON).get(0).getColumnQualifier(),
+        s2.getColumns(Field.JSON).get(0).getColumnQualifier());
   }
 
   @Test

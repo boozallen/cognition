@@ -44,14 +44,14 @@ object QueryFilter {
    */
   def getColumns(criteria: Criteria) = {
     var columns = criteria.getStringMatches.keySet.map(x =>
-      criteria.getSchema.getColumns(x, criteria.getSource))
+      criteria.getSchema.getColumns(x))
       .flatMap(x => x).map(x => (x.getColumnFamily.toString(), x.getColumnQualifier.toString()))
 
     if (criteria.getKeywords != null && criteria.getKeywords.size() > 0) {
-      columns ++= criteria.getSchema.getColumns(Field.KEYWORD, criteria.getSource).map(x => (x.getColumnFamily.toString(), x.getColumnQualifier.toString()))
+      columns ++= criteria.getSchema.getColumns(Field.KEYWORD).map(x => (x.getColumnFamily.toString(), x.getColumnQualifier.toString()))
     }
 
-    columns += criteria.getSchema.getTuples(Field.JSON, criteria.getSource).get(0)
+    columns += criteria.getSchema.getTuples(Field.JSON).get(0)
 
     columns.toSeq
   }

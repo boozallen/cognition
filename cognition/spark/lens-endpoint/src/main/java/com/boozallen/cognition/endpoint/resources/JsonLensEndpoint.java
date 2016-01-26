@@ -44,86 +44,86 @@ import org.slf4j.LoggerFactory;
 @Produces(MediaType.APPLICATION_JSON)
 public class JsonLensEndpoint extends LensEndpoint{
 
-	final static Logger LOGGER = LoggerFactory.getLogger(JsonLensEndpoint.class);
+  final static Logger LOGGER = LoggerFactory.getLogger(JsonLensEndpoint.class);
 
-	private final static String AND_DEFAULT_OPERATOR = "&";
+  private final static String AND_DEFAULT_OPERATOR = "&";
 
-	/**
-	 * Executes a search query utilizing all sources/indexes.
-	 * Required fields/parameters: startDate and endDate
-	 * 
-	 * @return the search results, in JSON format, that match the query
-	 */
-	@GET
-	@Path("/_search")
-    public String jsonQuery(@QueryParam("q") String q, String sourceIn){
-		
-		// initialize query properties
-		String startDate = null;
-		String endDate = null;
-		String user = null;
-		String language = null;
-		String country = null;
-		Integer limit = null;
-		String source = null;
-		List<String> keywords = new ArrayList<String>();
-		
-		q = convertDelim(q);
-		String[] query = q.split(AND_DEFAULT_OPERATOR);
-		List<String> paramStrings = new ArrayList<String>(Arrays.asList(query));
-		
-		for(String paramSplit : paramStrings){
-			String[] param = paramSplit.split(":", 2);
-			
-			if(!param[0].isEmpty()){
-				switch(param[0]){
-					case "startDate":
-						startDate = param[1].toLowerCase(); break;
-					case "endDate":
-						endDate = param[1].toLowerCase(); break;
-					case "user":
-						user = param[1].toLowerCase(); break;
-					case "language":
-						language = param[1].toLowerCase(); break;
-					case "country":
-						country = param[1].toLowerCase(); break;
-					case "keywords":
-						keywords.add(param[1].toLowerCase()); break;
-					case "limit": 
-						limit = Integer.parseInt(param[1]); break;
-					case "source":
-						source = param[1].toLowerCase(); break;
-				}
-			}
-		}
-		
-		if(sourceIn != null && !sourceIn.isEmpty()){
-			source = sourceIn;
-		}
-		
-		return this.query(user, keywords, language, country, startDate, endDate, source, true, limit);
-	}
-	
-	/**
-	 * Executes a search query utilizing the {source} source/index.
-	 * Required fields/parameters: Start and end date.
-	 * 
-	 * @return the search results, in JSON format, that match the query
-	 */
-	
-	@GET
-	@Path("/{source}/_search")
-    public String querySource(@QueryParam("q") String q, @PathParam("source") String source){
-		return jsonQuery(q,source);
-	}
-	
-	// converts operator to default value before processing
-	private String convertDelim(String queryString){
-		String q = queryString;
-		q = q.replaceAll("AND", AND_DEFAULT_OPERATOR);
-		q = q.replaceAll(" AND ", AND_DEFAULT_OPERATOR);
-		
-		return q;
-	}
-	
+  /**
+   * Executes a search query utilizing all sources/indexes.
+   * Required fields/parameters: startDate and endDate
+   * 
+   * @return the search results, in JSON format, that match the query
+   */
+  @GET
+  @Path("/_search")
+  public String jsonQuery(@QueryParam("q") String q, String schemaIn){
+
+    // initialize query properties
+    String startDate = null;
+    String endDate = null;
+    String user = null;
+    String language = null;
+    String country = null;
+    Integer limit = null;
+    String schema = null;
+    List<String> keywords = new ArrayList<String>();
+
+    q = convertDelim(q);
+    String[] query = q.split(AND_DEFAULT_OPERATOR);
+    List<String> paramStrings = new ArrayList<String>(Arrays.asList(query));
+
+    for(String paramSplit : paramStrings){
+      String[] param = paramSplit.split(":", 2);
+
+      if(!param[0].isEmpty()){
+        switch(param[0]){
+        case "startDate":
+          startDate = param[1].toLowerCase(); break;
+        case "endDate":
+          endDate = param[1].toLowerCase(); break;
+        case "user":
+          user = param[1].toLowerCase(); break;
+        case "language":
+          language = param[1].toLowerCase(); break;
+        case "country":
+          country = param[1].toLowerCase(); break;
+        case "keywords":
+          keywords.add(param[1].toLowerCase()); break;
+        case "limit": 
+          limit = Integer.parseInt(param[1]); break;
+        case "schema":
+          schema = param[1].toLowerCase(); break;
+        }
+      }
+    }
+
+    if(schemaIn != null && !schemaIn.isEmpty()){
+      schema = schemaIn;
+    }
+
+    return this.query(user, keywords, language, country, startDate, endDate, schema, true, limit);
+  }
+
+  /**
+   * Executes a search query utilizing the {source} source/index.
+   * Required fields/parameters: Start and end date.
+   * 
+   * @return the search results, in JSON format, that match the query
+   */
+
+  @GET
+  @Path("/{schema}/_search")
+  public String querySchema(@QueryParam("q") String q, @PathParam("schema") String schema){
+    return jsonQuery(q,schema);
+  }
+
+  // converts operator to default value before processing
+  private String convertDelim(String queryString){
+    String q = queryString;
+    q = q.replaceAll("AND", AND_DEFAULT_OPERATOR);
+    q = q.replaceAll(" AND ", AND_DEFAULT_OPERATOR);
+
+    return q;
+  }
+
 }

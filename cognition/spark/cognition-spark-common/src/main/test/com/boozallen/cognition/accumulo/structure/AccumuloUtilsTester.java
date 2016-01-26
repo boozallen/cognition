@@ -34,7 +34,7 @@ public class AccumuloUtilsTester {
   public void testGetRanges() {
     Collection<Range> ranges = AccumuloUtils.getRanges(Instant.parse("2014-12-08T00:00:00.00Z"),
         Instant.parse("2014-12-08T00:00:00.00Z"),
-        Source.TWITTER);
+        "TWITTER");
 
     // Check the size
     assertEquals(36, ranges.size()); // 0-9, a-z

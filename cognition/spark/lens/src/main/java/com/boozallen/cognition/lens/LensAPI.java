@@ -19,18 +19,12 @@
 
 package com.boozallen.cognition.lens;
 
-import com.boozallen.cognition.accumulo.config.AccumuloConfiguration;
 import com.boozallen.cognition.accumulo.config.CognitionConfiguration;
-import com.boozallen.cognition.accumulo.structure.AccumuloUtils;
-
-import org.apache.accumulo.core.client.AccumuloSecurityException;
 import org.apache.commons.configuration.Configuration;
 import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;
 import org.apache.spark.serializer.KryoSerializer;
 
-import java.io.IOException;
-import java.time.Instant;
 import java.util.Iterator;
 
 /**

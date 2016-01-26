@@ -44,12 +44,12 @@ class Query(sc: SparkContext, val criteria: Criteria, cognitionConfiguration: Co
   /**
    * Calls the collect action on the query filtered RDD and assembles into json
    */
-  def json(): String = query.makeJson(jsonField = criteria.getSchema.getTuples(Field.JSON, criteria.getSource).get(0));
+  def json(): String = query.makeJson(jsonField = criteria.getSchema.getTuples(Field.JSON).get(0));
 
    /**
    * Calls the take(limit) action on the query filtered RDD and assembles into json
    */
   //can't use default parameters when calling from java -- for java compatibility
-  def json(limit: Int): String = query.makeJson(limit, criteria.getSchema.getTuples(Field.JSON, criteria.getSource).get(0));
+  def json(limit: Int): String = query.makeJson(limit, criteria.getSchema.getTuples(Field.JSON).get(0));
 
 }

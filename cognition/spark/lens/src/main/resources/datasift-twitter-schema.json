@@ -47,6 +47,7 @@
     ]
   },
   "properties": {
-    "TABLE_NAME": "Event"
+    "TABLE_NAME": "Event",
+    "SOURCE": "TWITTER"
   }
 }

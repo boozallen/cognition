@@ -19,7 +19,7 @@
 
 package com.boozallen.cognition.endpoint.resources;
 
-import com.boozallen.cognition.accumulo.structure.Source;
+import com.boozallen.cognition.accumulo.config.CognitionConfiguration;
 import com.boozallen.cognition.lens.Criteria;
 import com.boozallen.cognition.lens.Field;
 import com.boozallen.cognition.lens.LensAPI;
@@ -51,22 +51,26 @@ public class LensEndpoint {
   final static Logger LOGGER = LoggerFactory.getLogger(LensEndpoint.class);
 
   private LensAPI api;
+  private CognitionConfiguration cognition;
+  private String defaultSchema;
 
   private final static String QUERY_ERROR = "Failed to execute query: ";
   private final static String FAILURE = "Failed to execute query.\n";
 
   public LensEndpoint() {
-    api = new LensAPI();
+    cognition = new CognitionConfiguration();
+    defaultSchema = cognition.getProperties().getString("lens.schema.default");
+    api = new LensAPI(cognition);
   }
 
   @GET
   public String defaultBehavior(@QueryParam("user") String user, @QueryParam("keywords") List<String> keywords,
       @QueryParam("language") String language, @QueryParam("country") String country,
       @NotNull @QueryParam("startDate") String startDate, @NotNull @QueryParam("endDate") String endDate,
-      @QueryParam("source") String source,
+      @QueryParam("schema") String schema,
       @DefaultValue("true") @QueryParam("useSpaceTokenization") boolean useSpaceTokenization,
       @QueryParam("limit") int limit) {
-    return query(user, keywords, language, country, startDate, endDate, source, useSpaceTokenization, limit);
+    return query(user, keywords, language, country, startDate, endDate, schema, useSpaceTokenization, limit);
   }
 
   /**
@@ -83,7 +87,7 @@ public class LensEndpoint {
       @QueryParam("country") String country,
       @NotNull @QueryParam("startDate") String startDate,
       @NotNull @QueryParam("endDate") String endDate,
-      @QueryParam("source") String source,
+      @QueryParam("schema") String schema,
       @DefaultValue("true") @QueryParam("useSpaceTokenization") boolean useSpaceTokenization,
       @QueryParam("limit") int limit) {
 
@@ -106,7 +110,7 @@ public class LensEndpoint {
           + " time window or provide a limit.");
     }
 
-    Criteria criteria = buildCriteria(user, keywords, language, country, source, useSpaceTokenization,
+    Criteria criteria = buildCriteria(user, keywords, language, country, schema, useSpaceTokenization,
         startInstant, endInstant);
 
     String sparkMessage = null;
@@ -126,7 +130,7 @@ public class LensEndpoint {
     return sparkMessage;
   }
 
-  private Criteria buildCriteria(String user, List<String> keywords, String language, String country, String source,
+  private Criteria buildCriteria(String user, List<String> keywords, String language, String country, String schema,
       boolean useSpaceTokenization, Instant startInstant, Instant endInstant) {
     Criteria criteria = new Criteria().setDates(startInstant, endInstant);
     if (user != null) {
@@ -146,29 +150,27 @@ public class LensEndpoint {
       LOGGER.trace("Added Location: " + country);
     }
 
-    if (source != null) {
-      criteria.setSource(source);
-      LOGGER.trace("Added Source: " + source);
-    } else {
-      // default is already twitter in configuration, just here for clarity
-      // or in case of changes
-      criteria.setSource(Source.TWITTER);
-      LOGGER.trace("Defaulting to TWITTER source");
-    }
-
     criteria.useSpaceTokens(useSpaceTokenization); // default true
 
-    SchemaAdapter schema = new SchemaAdapter();
-    if (criteria.getSource().equals(Source.MOREOVER)) {
-      schema.loadJson("moreover-schema.json");
-    } else {
-      schema.loadJson("gnip-schema.json");
+    if(schema != null){
+      criteria.setSchema(getSchema(schema));
+    }else{
+      criteria.setSchema(getSchema(defaultSchema));
     }
-    criteria.setSchema(schema);
+    
 
     LOGGER.info("Criteria: " + criteria.toString());
 
     return criteria;
+  }
+  
+  private SchemaAdapter getSchema(String schemaSelection){
+    if(!schemaSelection.endsWith("-schema.json")){
+      schemaSelection += "-schema.json";
+    }
+    SchemaAdapter schema = new SchemaAdapter();
+    schema.loadJson(schemaSelection);
+    return schema;
   }
 
   private String query(Criteria criteria, int limit) {

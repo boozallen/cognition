@@ -21,16 +21,13 @@ package com.boozallen.cognition.lens;
 
 import com.boozallen.cognition.accumulo.config.AccumuloConfiguration;
 import com.boozallen.cognition.accumulo.config.CognitionConfiguration;
-import com.boozallen.cognition.accumulo.structure.Source;
 
 import org.apache.accumulo.core.client.AccumuloSecurityException;
 import org.apache.accumulo.core.client.mock.MockInstance;
-import org.apache.accumulo.core.data.Range;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Collection;
 
 import static org.junit.Assert.*;
 
@@ -39,8 +36,6 @@ public class AccumuloAdapterTest {
   public void testGetAccumuloConfiguration() throws AccumuloSecurityException, IOException {
     // Create Criteria
     Criteria criteria = new Criteria();
-    //criteria.setAccumuloTable("TableName");
-    criteria.setSource(Source.TWITTER);
     criteria.setDates(Instant.parse("2015-02-28T00:00:00.00Z"), Instant.parse("2015-02-28T23:59:59.99Z"));
 
     SchemaAdapter schema = new SchemaAdapter();

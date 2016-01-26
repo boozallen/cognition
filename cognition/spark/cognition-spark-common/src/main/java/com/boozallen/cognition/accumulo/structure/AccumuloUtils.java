@@ -31,22 +31,21 @@ public class AccumuloUtils {
    * Constructs the accumulo ranges with the correct times, shards and sources.
    * @param beginTime -- the Instant to start the range
    * @param endTime -- the Instant to end the range
-   * @param source -- the source of the information
    * @return
    */
-  public static Collection<Range> getRanges(Instant beginTime, Instant endTime, Source source) {
+  public static Collection<Range> getRanges(Instant beginTime, Instant endTime, String source) {
     ArrayList<Range> ranges = new ArrayList<>();
     //numeric shard ids
     long begin = beginTime.toEpochMilli();
     long end = endTime.toEpochMilli();
     end += 1000; //needed so it can be exclusive, otherwise range is not correct
     for (int i = 0; i <= 9; i++) {
-      Range range = new Range(source.toString() + "_" + i + "_" + begin, true, source.toString() + "_" + i + "_" + end, false);
+      Range range = new Range(source + "_" + i + "_" + begin, true, source + "_" + i + "_" + end, false);
       ranges.add(range);
     }
 
     for (char i = 'a'; i <= 'z'; i++) {
-      Range range = new Range(source.toString() + "_" + i + "_" + begin, true, source.toString() + "_" + i + "_" + end, false);
+      Range range = new Range(source + "_" + i + "_" + begin, true, source + "_" + i + "_" + end, false);
       ranges.add(range);
     }
     return ranges;

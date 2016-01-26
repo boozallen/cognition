@@ -19,7 +19,6 @@
 
 package com.boozallen.cognition.lens;
 
-import com.boozallen.cognition.accumulo.structure.Source;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -48,7 +47,7 @@ public class SchemaAdapter implements Serializable {
   private static Gson gson = new Gson();
 
   public enum Property {
-    TABLE_NAME, AUTHORIZATIONS;
+    TABLE_NAME, AUTHORIZATIONS, SOURCE;
   }
 
   public SchemaAdapter() {
@@ -67,12 +66,20 @@ public class SchemaAdapter implements Serializable {
     return properties.get(Property.AUTHORIZATIONS);
   }
 
+  public String getSource() {
+    return properties.get(Property.SOURCE);
+  }
+
   public void setTableName(String tableName) {
     properties.put(Property.TABLE_NAME, tableName);
   }
 
   public void setAuthorizations(String authorizations) {
     properties.put(Property.AUTHORIZATIONS, authorizations);
+  }
+
+  public void setSource(String source) {
+    properties.put(Property.SOURCE, source);
   }
 
   /**
@@ -160,37 +167,15 @@ public class SchemaAdapter implements Serializable {
   }
 
   /**
-   * Return the field based on known accumulo column family and qualifiers.
-   * @param source -- the source of the data
-   * @param cf -- the accumulo column family
-   * @param cq -- the accumulo column qualifier
-   * @return the field associated with the given parameters or null if there is not one
-   */
-  public Field getField(Source source, String cf, String cq) {
-    for (Map.Entry<Field, List<Column>> field : fields.entrySet()) {
-      for (Column column : field.getValue()) {
-        if (column.getColumnFamily().toString().equals(cf) &&
-            column.getColumnQualifier().toString().equals(cq) &&
-            column.getSource().equals(source)) {
-          return field.getKey();
-        }
-      }
-    }
-    return null;
-  }
-
-  /**
    * Return all column family column qualifier pairs based on the source of the data
    * @param source -- the source of the data
    * @return a list of tuples of (cf,cq)
    */
-  public List<Tuple2<String, String>> getTuples(Source source) {
+  public List<Tuple2<String, String>> getTuples() {
     List<Tuple2<String, String>> tuples = new ArrayList<>();
     for (Map.Entry<Field, List<Column>> field : fields.entrySet()) {
       for (Column column : field.getValue()) {
-        if (column.getSource().equals(source)) {
-          tuples.add(new Tuple2<String, String>(column.getColumnFamily().toString(), column.getColumnQualifier().toString()));
-        }
+        tuples.add(new Tuple2<String, String>(column.getColumnFamily().toString(), column.getColumnQualifier().toString()));
       }
     }
     return tuples;
@@ -202,12 +187,10 @@ public class SchemaAdapter implements Serializable {
    * @param source -- the source of the data
    * @return a list of tuples of (cf,cq)
    */
-  public List<Tuple2<String, String>> getTuples(Field field, Source source) {
+  public List<Tuple2<String, String>> getTuples(Field field) {
     List<Tuple2<String, String>> tuples = new ArrayList<>();
     for (Column column : fields.get(field)) {
-      if (column.getSource().equals(source)) {
-        tuples.add(new Tuple2<String, String>(column.getColumnFamily().toString(), column.getColumnQualifier().toString()));
-      }
+      tuples.add(new Tuple2<String, String>(column.getColumnFamily().toString(), column.getColumnQualifier().toString()));
     }
     return tuples;
   }
@@ -218,12 +201,10 @@ public class SchemaAdapter implements Serializable {
    * @param source -- the source of the data
    * @return a list of columns
    */
-  public List<Column> getColumns(Field field, Source source) {
+  public List<Column> getColumns(Field field) {
     List<Column> columns = new ArrayList<>();
     for (Column column : fields.get(field)) {
-      if (column.getSource().equals(source)) {
-        columns.add(column);
-      }
+      columns.add(column);
     }
     return columns;
   }

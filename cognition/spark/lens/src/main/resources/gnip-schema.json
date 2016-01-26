@@ -38,15 +38,11 @@
         "source": "TWITTER",
         "columnFamily": "data",
         "columnQualifier": "cognition.esjson"
-      },
-      {
-        "source": "FACEBOOK",
-        "columnFamily": "data",
-        "columnQualifier": "cognition.esjson"
       }
     ]
   },
   "properties": {
-    "TABLE_NAME": "twitter"
+    "TABLE_NAME": "twitter",
+    "SOURCE": "TWITTER"
   }
 }

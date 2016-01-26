@@ -46,7 +46,6 @@ public class CriteriaTest {
     criteria.addKeyword("Key1");
     criteria.addKeyword("Key2");
     criteria.addKeywords(Arrays.asList("Key3", "Key4"));
-    criteria.setSource("Twitter");
     criteria.addMatch(Field.JSON, "json");
     criteria.addMatch(Field.KEYWORD, "keyword");
     criteria.addMatch(Field.LANGUAGE, "language");

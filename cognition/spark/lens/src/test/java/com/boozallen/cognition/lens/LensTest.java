@@ -21,7 +21,6 @@ package com.boozallen.cognition.lens;
 
 import com.boozallen.cognition.accumulo.config.AccumuloConfiguration;
 import com.boozallen.cognition.accumulo.config.CognitionConfiguration;
-import com.boozallen.cognition.accumulo.structure.Source;
 
 import org.apache.accumulo.core.client.*;
 import org.apache.accumulo.core.client.mock.MockInstance;
@@ -168,7 +167,6 @@ public class LensTest {
     criteria.setDates(Instant.parse("2015-10-20T09:19:12Z"), Instant.parse("2015-10-20T09:19:13Z"));
     SchemaAdapter s = new SchemaAdapter();
     s.loadJson("moreover-schema.json");
-    criteria.setSource(Source.MOREOVER);
     criteria.setSchema(s);
     criteria.setAccumuloTable("moreover");
     String json = lens.query(criteria);

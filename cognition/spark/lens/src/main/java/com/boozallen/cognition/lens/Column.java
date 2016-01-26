@@ -21,8 +21,6 @@ package com.boozallen.cognition.lens;
 
 import org.apache.hadoop.io.Text;
 
-import com.boozallen.cognition.accumulo.structure.Source;
-
 import java.io.Serializable;
 
 /**
@@ -33,7 +31,6 @@ import java.io.Serializable;
 public class Column implements Serializable {
   private static final long serialVersionUID = 121L;
 
-  private Source source;
   private String columnFamily;
   private String columnQualifier;
 
@@ -45,8 +42,7 @@ public class Column implements Serializable {
    * @param cf -- the column family in accumulo
    * @param cq -- the column qualifier in accumulo
    */
-  public Column(Source source, String cf, String cq) {
-    this.source = source;
+  public Column(String cf, String cq) {
     this.columnFamily = cf;
     this.columnQualifier = cq;
   }
@@ -57,18 +53,10 @@ public class Column implements Serializable {
    * @param cf -- the column family in accumulo
    * @param cq -- the column qualifier in accumulo
    */
-  public Column(Source source, Text cf, Text cq) {
-    this(source, cf.toString(), cq.toString());
+  public Column(Text cf, Text cq) {
+    this(cf.toString(), cq.toString());
   }
 
-  /**
-   * Return the source of the column
-   * @return the source
-   */
-  public Source getSource() {
-    return source;
-  }
-  
   /**
    * Return the column family
    * @return columnFamily

@@ -70,6 +70,7 @@
     ]
   },
   "properties": {
-    "TABLE_NAME": "webxml"
+    "TABLE_NAME": "webxml",
+    "SOURCE": "WEBXML"
   }
 }

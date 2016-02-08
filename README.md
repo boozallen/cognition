@@ -5,11 +5,11 @@ Cognition is an open-source platform for data ingest, data fusion and search. Co
 
 ## Build Instructions
 To clone from git enter:
-    `git clone https://github.com/booz-allen-hamilton/cognition`
+    `git clone https://github.com/boozallen/cognition`
     
 The entire project can be built from root Maven pom: `mvn clean install`. Similarly, individual modules can be built from their respective Maven pom.
 
 ## License
-Cognition is licensed under the terms of the Apache License, version 2.0 (https://github.com/booz-allen-hamilton/cognition/blob/master/LICENSE)
+Cognition is licensed under the terms of the Apache License, version 2.0 (https://github.com/boozallen/cognition/blob/master/LICENSE)
 
 Copyright &copy; 2016, Booz Allen Hamilton
